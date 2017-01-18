@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function sum(a,b) {
+            var a,b;
+            var newVar = a + b;
+            document.write(newVar)
+        }
+        function sayHello() {
+            var hello = window.android.sayHello();
+            document.getElementById("p").innerHTML = hello;
+        }
+        function toast(){
+        window.android.showToast();
+        }
+
+    </script>
+    <style>
+        #p{
+            background-color: aqua;
+            size: 20px;
+        }
+        #btn{
+            background-color: brown;
+        }
+        #btn2{
+         border-color: chartreuse;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+<button id="btn" onclick="sayHello()">Say hello</button>
+<br/>
+<p id="p"></p><br/>
+<button id="btn2" onclick="toast()">Say hello</button>
+<br/>
+
+</body>
+</html>
