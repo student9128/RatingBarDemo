@@ -1,9 +1,14 @@
 package com.kevin.tech.ratingbardemo;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
@@ -16,20 +21,25 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kevin.tech.ratingbardemo.receiver.LocalReceiver;
 import com.kevin.tech.ratingbardemo.receiver.NetworkChangeReceiver;
+import com.kevin.tech.ratingbardemo.service.LongRunningService;
+import com.kevin.tech.ratingbardemo.service.MyIntentService;
 import com.kevin.tech.ratingbardemo.service.MyService;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RatingBar.OnRatingBarChangeListener, View.OnClickListener {
-
+    private static final String TAG = "Kevin";
     private Toolbar mToolbar;
     private FloatingActionButton mFab;
     private DrawerLayout mDrawer;
@@ -46,6 +56,11 @@ public class MainActivity extends AppCompatActivity
     private LocalBroadcastManager mLocalBroadcastManager;
     private Button mStartService, mStopService;
     private Button mBindService, mUnBindService;
+    private Button mStartIntentService;
+    private Button mStartAlarmService;
+    private TextView mLightLevel;
+    private TextView mOrientationAngel;
+    private SensorManager mSensorManager;
     private MyService.DownLoadBinder mDownLoadBinder;
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -129,7 +144,70 @@ public class MainActivity extends AppCompatActivity
         mUnBindService = (Button) findViewById(R.id.btn_unbind_service);
         mBindService.setOnClickListener(this);
         mUnBindService.setOnClickListener(this);
+
+        mStartIntentService = (Button) findViewById(R.id.btn_start_intent_service);
+        mStartIntentService.setOnClickListener(this);
+
+        mStartAlarmService = (Button) findViewById(R.id.btn_start_alarm);
+        mStartAlarmService.setOnClickListener(this);
+
+        mLightLevel = (TextView) findViewById(R.id.tv_light_level);
+        mOrientationAngel = (TextView) findViewById(R.id.tv_orientation);
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Sensor sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        Sensor sensorAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        Sensor mMagneticSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        mSensorManager.registerListener(mSensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mSensorEventListenerAccelerometer, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mSensorEventListenerMagnetic, mMagneticSensor, SensorManager.SENSOR_DELAY_GAME);
     }
+
+    private SensorEventListener mSensorEventListenerMagnetic = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float zVaule = Math.abs(event.values[0]);
+            float xValue = Math.abs(event.values[1]);
+            float yValue = Math.abs(event.values[2]);
+            mOrientationAngel.setText("旋转角度：X方向：" + xValue + "--Y方向：" + yValue + "--Z方向：" + zVaule);
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
+    private SensorEventListener mSensorEventListenerAccelerometer = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            // 加速度可能会是负值，所以要取它们的绝对值
+            float xValue = Math.abs(event.values[0]);
+            float yValue = Math.abs(event.values[1]);
+            float zValue = Math.abs(event.values[2]);
+            if (xValue > 15 || yValue > 15 || zValue > 15) {
+// 认为用户摇动了手机，触发摇一摇逻辑
+                Toast.makeText(MainActivity.this, "摇一摇",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
+    private SensorEventListener mSensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            //values数组第一个索引的值就是光照强度
+            float value = event.values[0];
+            mLightLevel.setText("当前光照强度为：" + value);
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
 
     @Override
     public void onBackPressed() {
@@ -219,6 +297,15 @@ public class MainActivity extends AppCompatActivity
             case R.id.btn_unbind_service:
                 unbindService(mConnection);//解绑服务
                 break;
+            case R.id.btn_start_intent_service:
+                Log.i(TAG, "onClick: Thread is:-->" + Thread.currentThread().getId());
+                Intent intentService = new Intent(this, MyIntentService.class);
+                startService(intentService);
+                break;
+            case R.id.btn_start_alarm:
+                Intent i = new Intent(this, LongRunningService.class);
+                startService(i);
+                break;
         }
     }
 
@@ -227,5 +314,10 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         unregisterReceiver(mNetworkChangeReceiver);
         mLocalBroadcastManager.unregisterReceiver(mLocalReceiver);
+        if (mSensorManager != null) {
+            mSensorManager.unregisterListener(mSensorEventListener);
+            mSensorManager.unregisterListener(mSensorEventListenerAccelerometer);
+            mSensorManager.unregisterListener(mSensorEventListenerMagnetic);
+        }
     }
 }

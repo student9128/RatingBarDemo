@@ -11,94 +11,144 @@
     tools:context="com.kevin.tech.ratingbardemo.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <RatingBar
-        android:id="@+id/rb_rating_bar"
-        style="?android:attr/ratingBarStyleIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:rating="2"
-        android:stepSize="1.5"/>
-
-    <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/ac_rating_bar"
-        style="@style/CustomizeRatingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:rating="2"
-        android:stepSize="2.5"/>
-
-    <Button
-        android:id="@+id/btn_send_broadcast"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:text="发送自定义广播"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_send_local_broadcast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorAccent"
-        android:text="发送本地广播"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_2h5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorAccent"
-        android:text="跳转到H5界面"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>
 
-    <Button
-        android:id="@+id/btn_start_service"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorAccent"
-        android:text="启动Service"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>
+            <RatingBar
+                android:id="@+id/rb_rating_bar"
+                style="?android:attr/ratingBarStyleIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="2"
+                android:stepSize="1.5"/>
 
-    <Button
-        android:id="@+id/btn_stop_service"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorAccent"
-        android:text="关闭Service"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>   <Button
-        android:id="@+id/btn_bind_service"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorAccent"
-        android:text="Bind Service"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>
+            <android.support.v7.widget.AppCompatRatingBar
+                android:id="@+id/ac_rating_bar"
+                style="@style/CustomizeRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="2"
+                android:stepSize="2.5"/>
 
-    <Button
-        android:id="@+id/btn_unbind_service"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorAccent"
-        android:text="UnBind Service"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>
+            <Button
+                android:id="@+id/btn_send_broadcast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:text="发送自定义广播"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/btn_send_local_broadcast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:text="发送本地广播"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/btn_2h5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:text="跳转到H5界面"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/btn_start_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:text="启动Service"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/btn_stop_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:text="关闭Service"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/btn_bind_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:text="Bind Service"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/btn_unbind_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:text="UnBind Service"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/btn_start_intent_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:text="Start IntentService"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/btn_start_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:text="Start AlarmService"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/tv_light_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/tv_orientation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

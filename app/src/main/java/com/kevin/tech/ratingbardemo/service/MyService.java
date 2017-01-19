@@ -22,9 +22,19 @@ public class MyService extends Service {
     }
 
     @Override
+    public boolean onUnbind(Intent intent) {
+        Log.i(TAG, "onUnbind: 解绑成功~");
+        return super.onUnbind(intent);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate: 执行了！");
+//        Notification notification = new Notification(R.mipmap.ic_launcher, "Notification comes", System.currentTimeMillis());
+//        Intent notificationIntent = new Intent(this, MainActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+//        startForeground(1, notification);
     }
 
     @Override
@@ -39,7 +49,7 @@ public class MyService extends Service {
         Log.i(TAG, "onDestroy: 执行了！！！！！！");
     }
 
-   public class DownLoadBinder extends Binder {
+    public class DownLoadBinder extends Binder {
         public void startDownLoad() {
             Log.i(TAG, "startDownLoad: 开始下载~");
         }
